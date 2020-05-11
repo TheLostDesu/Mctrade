@@ -1,0 +1,58 @@
+-- ---
+-- Globals
+-- ---
+
+-- SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+-- SET FOREIGN_KEY_CHECKS=0;
+
+-- ---
+-- Table 'user'
+-- 
+-- ---
+
+DROP TABLE IF EXISTS 'user';
+		
+CREATE TABLE 'user' (
+  'id' INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
+  'username' VARCHAR(64) NULL DEFAULT NULL,
+  'email' VARCHAR(120) NULL DEFAULT NULL,
+  'passworld_hash' VARCHAR(128) NULL DEFAULT NULL,
+  PRIMARY KEY ('id')
+);
+
+-- ---
+-- Table 'post'
+-- 
+-- ---
+
+DROP TABLE IF EXISTS 'post';
+		
+CREATE TABLE 'post' (
+  'id' INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
+  'body' VARCHAR(140) NULL DEFAULT NULL,
+  'timestamp' DATETIME NULL DEFAULT NULL,
+  'user_id' INTEGER NULL DEFAULT NULL,
+  PRIMARY KEY ('id')
+);
+
+-- ---
+-- Foreign Keys 
+-- ---
+
+ALTER TABLE 'post' ADD FOREIGN KEY (user_id) REFERENCES 'user' ('id');
+
+-- ---
+-- Table Properties
+-- ---
+
+-- ALTER TABLE 'user' ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+-- ALTER TABLE 'post' ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ---
+-- Test Data
+-- ---
+
+-- INSERT INTO 'user' ('id','username','email','passworld_hash') VALUES
+-- ('','','','');
+-- INSERT INTO 'post' ('id','body','timestamp','user_id') VALUES
+-- ('','','','');
