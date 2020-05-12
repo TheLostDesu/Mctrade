@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% for post in posts %}
+    <table>
+        <tr valign="top">
+            <td><a href="/buy/{{post.id}}">{{post.name}}</a>
+        </tr>
+    </table>
+    {% endfor %}
+{% endblock %}

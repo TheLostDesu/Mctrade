@@ -1,18 +1,21 @@
 <html>
     <head>
         {% if title %}
-        <title>{{ title }} - microblog</title>
+        <title>{{ title }} - Биржа Майнкрафт</title>
         {% else %}
-        <title>microblog</title>
+        <title>Биржа Майнкрафт</title>
         {% endif %}
     </head>
     <body>
         <div>
-            Microblog:
-            <a href="{{ url_for('index') }}">Home</a>
+            Биржа Майнкрафт:
+            <a href="{{ '/index' }}">Home</a>
             {% if current_user.is_anonymous %}
             <a href="{{ url_for('login') }}">Login</a>
             {% else %}
+            <a href="{{ url_for('sell') }}">Sell</a>
+            <a href="{{ url_for('buy_all') }}">Buy</a>
+            <a href="{{ url_for('user', username=current_user.username) }}">Profile</a>
             <a href="{{ url_for('logout') }}">Logout</a>
             {% endif %}
         </div>
