@@ -1,7 +1,7 @@
 from flask import render_template, flash, redirect, url_for, request
 from app import app, db
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, PostForm
-from app.forms import CreateSellForm
+from app.forms import CreateSellForm, CountBuyForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Post, Item, Request
 from werkzeug.urls import url_parse
@@ -115,8 +115,8 @@ def register():
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
     posts = [
-        {'author': user, 'body': 'Test post #1'},
-        {'author': user, 'body': 'Test post #2'}
+        {'author': user, 'body': 'FirstLoggined'},
+        {'author': user, 'body': 'Registred'}
     ]
     return render_template('user.html', user=user, posts=posts)
 
@@ -183,9 +183,30 @@ def buy_all():
 @app.route('/buy/<itemid>')
 def buy(itemid):
     post = Request.query.filter_by(item_id=int(itemid))
+    for i in post:
+        print(i.cost)
     return render_template('buyitem.html', title='Buy item', posts=post)
 
 
-@app.route('/buyitem/<tradeid>')
-def buy2(traded):
-    return 'ok'
+@app.route('/buyitem/<tradeid>', methods=['POST', 'GET'])
+def buy2(tradeid):
+    form = CountBuyForm()
+    if form.validate_on_submit():
+        post = Request.query.filter_by(id=int(tradeid)).first()
+        count = int(form.itemcount.data)
+        if count <= post.count:
+            if count < post.count:
+                newcount = post.count - count
+                newREQ = Request(user_id=post.user_id, item_id=post.item_id,
+                                 count=newcount, cost=post.cost)
+                db.session.add(newREQ)
+                db.session.commit()
+
+            to_delete = Request.query.filter_by(id=int(tradeid))
+            to_delete.delete(synchronize_session=False)
+            db.session.commit()
+            return(redirect(url_for('index')))
+        else:
+            flash('Invalid itemcount')
+            return redirect(str(tradeid))
+    return render_template('buyitem2.html', title='Buy item', form=form)

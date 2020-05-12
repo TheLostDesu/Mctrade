@@ -4,7 +4,7 @@
     {% for post in posts %}
     <table>
         <tr valign="top">
-            <td><a href="/buyitem/{{post.id}}">{{post.Cost}}</a>
+            <td><a href="/buyitem/{{post.id}}">{{post.cost}}({{post.count}})</a>
         </tr>
     </table>
     {% endfor %}

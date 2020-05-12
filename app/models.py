@@ -56,3 +56,9 @@ class Request(db.Model):
     item_id = db.Column(db.Integer, db.ForeignKey('item.id'))
     count = db.Column(db.Integer)
     cost = db.Column(db.Integer)
+
+
+class Balance(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    money = db.Column(db.Integer)

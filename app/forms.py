@@ -57,3 +57,8 @@ class CreateSellForm(FlaskForm):
     def validate_itemcost(self, itemcost):
         if not itemcost.data.isdigit():
             raise ValidationError('Please input correct amount')
+
+
+class CountBuyForm(FlaskForm):
+    itemcount = StringField('Count', validators=[DataRequired()])
+    submit = SubmitField('Submit')
